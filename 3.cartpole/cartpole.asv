@@ -1,6 +1,6 @@
 %% ================================
-% Practice 3
-% CartPole Dynamic Simulation 
+% Practice 2
+% Pendulum Dynamic Simulation 
 % 20191091 
 % Taemin Kim 
 %% =================================
@@ -37,7 +37,6 @@ d_th(1) = 0;       % initial d_x
 u = 0;   % 외력
 
 for i=1:n-1
-    th(i) = atan2(sin(th(i)), cos(th(i)));
 % Step 1. 운동방정식으로부터 다음시간의 가속도 구하기
     D2 = -(m*g*th(i))/M + u/M;
     D2_th = (g/l)*(1+(m/M))*th(i) - u/(M*l);
@@ -69,9 +68,8 @@ hold on;
 
 
 %% Draw Animation
-figure(20);
-
-axis([-2. 2. -2 2]);
+figure(20)
+axis([-5. 2. -5. 5.])
 ax=[0,0]; ay=[0,0];
 
 p=animatedline(ax,ay,'Color','r','LineWidth',2,'MaximumNumPoints',5);
@@ -84,7 +82,7 @@ video = VideoWriter('CartPole.mp4','MPEG-4');
 open(video)
 
 for i=1:10:n-1
-    draw_animation(x(i), 0.0, x(i)+l*sin(th(i)), l*cos(th(i)) );
+    draw_animation(x(i), 0, x(i)+l*cos(th(i))*d_th(i), -l*sin(th(i))*d_th(i) );
     F=getframe(gcf);
     writeVideo(video,F);
 end
