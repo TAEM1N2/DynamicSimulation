@@ -21,7 +21,7 @@ n = length(t);      % iteration 수
 x = zeros(1,n);
 d_x = zeros(1,n);
 th = zeros(1,n);    % 상태 angle(각도) 초기화
-d_th = zeros(1,n); % 상태 d_x(각속도) 초기화
+d_th = zeros(1,n);  % 상태 d_x(각속도) 초기화
 
 M = 10;             % 질량 of CART, [kg]
 m = 1;              % 질량 of mass, [kg]
@@ -39,7 +39,7 @@ u = 0;   % 외력
 for i=1:n-1
     th(i) = atan2(sin(th(i)), cos(th(i)));
 % Step 1. 운동방정식으로부터 다음시간의 가속도 구하기
-    D2 = -(m*g*th(i))/M + u/M;
+    D2 = -(m*g*th(i))67/M + u/M;
     D2_th = (g/l)*(1+(m/M))*th(i) - u/(M*l);
 % Step 2. 가속도를 수치적분하여 속도 구하기 
     d_x(i+1) = d_x(i) + D2 * dt;
@@ -60,10 +60,10 @@ grid on;
 hold on;
 
 subplot(212)
-plot(t,th)
+plot(t,th * 180/pi)
 title('Angle of the Pole');
 xlabel('time(s)')
-ylabel('angles (rad)')
+ylabel('angle (deg)')
 grid on;
 hold on;
 
@@ -80,7 +80,7 @@ p2=animatedline(ax,ay,'Color','b','LineWidth',2,'MaximumNumPoints',5);
 
 grid on
 
-video = VideoWriter('CartPole.mp4','MPEG-4');
+video = VideoWriter('CartPole1.mp4','MPEG-4');
 open(video)
 
 for i=1:10:n-1
