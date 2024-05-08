@@ -37,25 +37,37 @@ th(1) = 10 * pi/180;
 d_th(1) = 0;
 
 % Finding controller 
+r = 3;
+
 A=[0 1 0 0
    0 0 -m2*g/m1 0
    0 0 0 1
-   0 0 (m1+m2)*g/m1*l 0];
+   0 0 (m1+m2)*g/(m1*l) 0];
 
-B = [0 ; 1/m1 ; 0 ; -1/m1*l];
+B = [0 ; 1/m1 ; 0 ; -1/(m1*l)];
 
-P = [-1;-2;-3;-4]*10;
+
+P = [-4;-4;-4;-4];
+
+ABCD = [0 1 0 0 0
+        0 0 -m2*g/m1 0 1/m1
+        0 0 0 1 0 
+        0 0 (m1+m2)*g/(m1*l) 0 -1/(m1*l)
+        1 0 0 0 0];
+N = inv(ABCD)*[0;0;0;0;1];
+
+N_x = [1 ; 0 ; 0 ; 0];
+N_u = [0];
 
 k = acker(A,B,P);
-
-
+N_bar = N_u + k*N_x;
 
 %% Iteration
 for i=1:n-1
 
 % Step 4. Control
-k =[-24.4648  -50.9684 -482.3748 -150.9684];
-u = -k*[x(i);d_x(i);th(i);d_th(i)];
+% k =[-24.4648  -50.9684 -482.3748 -150.9684];
+u = -k*[x(i);d_x(i);th(i);d_th(i)] + N_bar*r;
 
 % Step 1. 운동방정식으로부터 다음시간의 가속도 구하기
 % D2 = inv(M)*(-C-G+T)
@@ -100,13 +112,13 @@ hold on;
 
 %Animation 
 figure(2);
-axis([-1. 1. -1. 1.]);
+axis([-10. 10. -1. 1.]);
 Ax=[0,0];Ay=[0,0];
 p=animatedline(Ax,Ay,'Color','b','LineWidth',1,'MaximumNumPoints',2);
 p1=animatedline(Ax,Ay,'Color','[0.4 0.5 0.2]','LineWidth',2,'MaximumNumPoints',5);
 grid on
 
-video = VideoWriter('practice3_20191091.mp4','MPEG-4');
+video = VideoWriter('r_stepinput_3.mp4','MPEG-4');
 open(video)
 
 for i=1:10:n-1
@@ -114,6 +126,6 @@ for i=1:10:n-1
     F=getframe(gcf);
     writeVideo(video,F);
 end
-close(video)
+% close(video)
 
 

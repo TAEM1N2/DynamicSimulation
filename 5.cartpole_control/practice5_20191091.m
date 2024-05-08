@@ -40,22 +40,19 @@ d_th(1) = 0;
 A=[0 1 0 0
    0 0 -m2*g/m1 0
    0 0 0 1
-   0 0 (m1+m2)*g/m1*l 0];
+   0 0 (m1+m2)*g/(m1*l) 0];
 
-B = [0 ; 1/m1 ; 0 ; -1/m1*l];
+B = [0 ; 1/m1 ; 0 ; -1/(m1*l)];
 
-P = [-1;-2;-3;-4]*10;
+P = [-4;-4;-4;-4];
 
 k = acker(A,B,P);
-
-
-
 %% Iteration
 for i=1:n-1
 
 % Step 4. Control
-k =[-24.4648  -50.9684 -482.3748 -150.9684];
-u = -k*[x(i);d_x(i);th(i);d_th(i)];
+% k =[-24.4648  -50.9684 -482.3748 -150.9684];
+u = -k*[x(i);d_x(i);th(i);d_th(i)] + 100;
 
 % Step 1. 운동방정식으로부터 다음시간의 가속도 구하기
 % D2 = inv(M)*(-C-G+T)
@@ -106,7 +103,7 @@ p=animatedline(Ax,Ay,'Color','b','LineWidth',1,'MaximumNumPoints',2);
 p1=animatedline(Ax,Ay,'Color','[0.4 0.5 0.2]','LineWidth',2,'MaximumNumPoints',5);
 grid on
 
-video = VideoWriter('practice3_20191091.mp4','MPEG-4');
+video = VideoWriter('practice5_20191091.mp4','MPEG-4');
 open(video)
 
 for i=1:10:n-1

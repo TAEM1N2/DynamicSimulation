@@ -39,7 +39,7 @@ u = 0;   % 외력
 for i=1:n-1
     th(i) = atan2(sin(th(i)), cos(th(i)));
 % Step 1. 운동방정식으로부터 다음시간의 가속도 구하기
-    D2 = -(m*g*th(i))67/M + u/M;
+    D2 = -(m*g*th(i))/M + u/M;
     D2_th = (g/l)*(1+(m/M))*th(i) - u/(M*l);
 % Step 2. 가속도를 수치적분하여 속도 구하기 
     d_x(i+1) = d_x(i) + D2 * dt;
