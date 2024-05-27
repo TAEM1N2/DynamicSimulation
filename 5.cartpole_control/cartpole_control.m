@@ -1,5 +1,5 @@
 %% ================================
-% Practice 3
+% Practice 5
 % Cart-Pole System Dynamic Simulation 
 % 20191091 
 % Taemin Kim 
@@ -56,8 +56,8 @@ ABCD = [0 1 0 0 0
         1 0 0 0 0];
 N = inv(ABCD)*[0;0;0;0;1];
 
-N_x = [1 ; 0 ; 0 ; 0];
-N_u = [0];
+N_x = N([1,2,3,4],:);
+N_u = N(5,:);
 
 k = acker(A,B,P);
 N_bar = N_u + k*N_x;
